@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PALMTREE ANALYTICS</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left {
+            width: 50%;
+        }
+
+        .right {
+            width: 50%;
+            padding-left: 20px;
+            margin-left: -60px;
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>PALMTREE ANALYTICS</h1>
+    <div class="container">
+        <div class="left">
+            <form action="/logistic" method="post">
+                <input type="submit" value="logistic">
+            </form>
+            <br>
+            <form action="/multiplelogistic" method="post">
+                <input type="submit" value="Multiple Logistic">
+            </form>
+            <br>
+            <form action="/decisiontree" method="post">
+                <input type="submit" value="Decision Tree">
+            </form>
+            <br>
+            <form action="/randomforest" method="post">
+                <input type="submit" value="Random Forest">
+            </form>
+        </div>
+
+<div class="right">
+    {% if description %}
+        <h2>Summary Statistics</h2>
+        {{ description|safe }}
+    {% endif %}
+
+    {% if logistic_result %}
+        <h2>Logistic Classification</h2>
+        <h2>Classification Matrix</h2>
+        <pre>{{ logistic_result }}</pre>
+    {% endif %}
+
+    {% if multiplelogistic_result %}
+        <h2>Multiple Logistic Classification</h2>
+        <h2>Classification Matrix</h2>
+        <pre>{{ multiplelogistic_result }}</pre>
+    {% endif %}
+
+    {% if decisiontree_result %}
+        <h2>Decision Tree Classification</h2>
+        <h2>Classification Matrix</h2>
+        <pre>{{ decisiontree_result }}</pre>
+    {% endif %}
+
+    {% if randomforest_result %}
+        <h2>Random Forest Classification</h2>
+        <h2>Classification Matrix</h2>
+        <pre>{{ randomforest_result }}</pre>
+    {% endif %}
+    </div>
+</div>
+</body>
+</html>

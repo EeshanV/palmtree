@@ -57,9 +57,16 @@ def boxplot():
         return render_template('index.html', boxplot=plot_data, df_available=True)
     else:
         return render_template('index.html', df_available=False)
-    
+
 @app.route('/classification', methods=['POST'])
-def clasification():
+def classification():
+    global df
+    description = df.describe().to_html()
+    return render_template('classification.html', description=description, df_available=True)
+
+
+@app.route('/logistic', methods=['POST'])
+def logistic():
     global df
     x= df.iloc[::,0:-1]
     y = df.iloc[::,-1]
@@ -69,11 +76,59 @@ def clasification():
         model = classifier.fit(x_train, y_train)
         y_pred = classifier.predict(x_test)
         cm = confusion_matrix(y_test,y_pred) 
-        op = f'Classification matrix : \n\n {cm} \n\nAccuracy score : {accuracy_score(y_test,y_pred)}'
-        return render_template('index.html', classification_result=op, df_available=True)
+        op = f'(Logistic)Classification matrix : \n\n {cm} \n\nAccuracy score : {accuracy_score(y_test,y_pred)}'
+        return render_template('classification.html', logistic_result=op, df_available=True)
     else:
-        return render_template('index.html', df_available=False)
-        
+        return render_template('classification.html', df_available=False)
+
+@app.route('/multiplelogistic', methods=['POST'])
+def multiplelogistic():
+    global df
+    x= df.iloc[::,0:-1]
+    y = df.iloc[::,-1]
+    if df is not None:
+        x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3, random_state=0)
+        classifier = lr()
+        model = classifier.fit(x_train, y_train)
+        y_pred = classifier.predict(x_test)
+        cm = confusion_matrix(y_test,y_pred) 
+        op = f'(Multiple)Classification matrix : \n\n {cm} \n\nAccuracy score : {accuracy_score(y_test,y_pred)}'
+        return render_template('classification.html', multiplelogistic_result=op, df_available=True)
+    else:
+        return render_template('classification.html', df_available=False)
+
+@app.route('/decisiontree', methods=['POST'])
+def decisiontree():
+    global df
+    x= df.iloc[::,0:-1]
+    y = df.iloc[::,-1]
+    if df is not None:
+        x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3, random_state=0)
+        classifier = lr()
+        model = classifier.fit(x_train, y_train)
+        y_pred = classifier.predict(x_test)
+        cm = confusion_matrix(y_test,y_pred) 
+        op = f'(DecisionTree)Classification matrix : \n\n {cm} \n\nAccuracy score : {accuracy_score(y_test,y_pred)}'
+        return render_template('classification.html', decisiontree_result=op, df_available=True)
+    else:
+        return render_template('classification.html', df_available=False)
+
+@app.route('/randomforest', methods=['POST'])
+def randomforest():
+    global df
+    x= df.iloc[::,0:-1]
+    y = df.iloc[::,-1]
+    if df is not None:
+        x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3, random_state=0)
+        classifier = lr()
+        model = classifier.fit(x_train, y_train)
+        y_pred = classifier.predict(x_test)
+        cm = confusion_matrix(y_test,y_pred) 
+        op = f'(RandomForest)Classification matrix : \n\n {cm} \n\nAccuracy score : {accuracy_score(y_test,y_pred)}'
+        return render_template('classification.html', randomforest_result=op, df_available=True)
+    else:
+        return render_template('classification.html', df_available=False)
+
 
 
 if __name__ == '__main__':
