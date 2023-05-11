@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PALMTREE ANALYTICS</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left {
+            width: 50%;
+        }
+
+        .right {
+            width: 50%;
+            padding-left: 20px;
+            margin-left: -60px;
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>PALMTREE ANALYTICS</h1>
+    <div class="container">
+        <div class="left">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".csv,.xls,.xlsx"><br><br>
+                <input type="submit" value="Describe">
+            </form>
+            <br>
+            <form action="/head" method="post">
+                <input type="submit" value="Display First Few Rows">
+            </form>
+            <br>
+            <form action="/boxplot" method="post">
+                <input type="submit" value="Visualize">
+            </form>
+            <br>
+            <form action="/classification" method="post">
+                <input type="submit" value="Classification">
+            </form>
+        </div>
+
+    <div class="right">
+    {% if description %}
+        <h2>Summary Statistics</h2>
+        {{ description|safe }}
+    {% endif %}
+
+    {% if head_df %}
+        <h2>First Few Rows</h2>
+        {{ head_df|safe }}
+    {% endif %}
+    
+    {% if boxplot %}
+        <h2>Box Plot</h2>
+        <img src="data:image/png;base64,{{ boxplot }}" alt="Box Plot">
+    {% endif %}
+
+    {% if classification_result %}
+        <h2>Classification Matrix</h2>
+        <pre>{{ classification_result }}</pre>
+    {% endif %}
+    </div>
+</div>
+</body>
+</html>
